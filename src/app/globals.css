@@ -2,20 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.scrollbar-hide::-webkit-scrollbar {
+
+    display: none;
+
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.scrollbar-hide {
+
+    -ms-overflow-style: none;
+    /* IE and Edge */
+
+    scrollbar-width: none;
+    /* Firefox */
+
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+
+    background-color: white;
+
+    color: black;
+
 }
+
+
+/* Dark Mode */
+
+@media (prefers-color-scheme: dark) {
+
+    body {
+
+        background-color: #121212;
+
+        color: #e0e0e0;
+
+    }
+
+
+    .container {
+
+        background-color: #1e1e1e;
+
+    }
+
+
+    .text {
+
+        color: #e0e0e0;
+
+    }
+}
+
+/* src/index.css or your global CSS file */
+
+
+.shepherd-modal-overlay {
+
+    background-color: rgba(0, 0, 0, 0.7); /* Darken the background */
+  
+    z-index: 1000; /* Ensure it's above other elements */
+  
+  }
+  
+  
+  /* Optional: Disable scrolling when the overlay is active */
+  
+  body.shepherd-active {
+  
+    overflow: hidden;
+  
+  }
