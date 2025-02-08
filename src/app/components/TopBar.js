@@ -12,6 +12,7 @@ const TopBar = () => {
           width={100} // Adjust width as needed
           height={100} // Adjust height as needed
           style={{ objectFit: 'contain' }} // Use style prop for custom styling 
+          priority
         />
       </div>
     </div>

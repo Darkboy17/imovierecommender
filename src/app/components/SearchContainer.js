@@ -3,8 +3,6 @@ import { FaStar } from 'react-icons/fa'; // Install react-icons if you haven't
 
 import movies from '../../app/movies.json'; // Adjust the path as necessary
 
-import MovieTag from './MovieTag'; // We'll create this component next
-
 
 const SearchContainer = ({ onRateMovie }) => {
 

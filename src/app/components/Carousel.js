@@ -13,7 +13,6 @@ const Carousel = ({ numberOfImages = 1000, initialLoad = 100 }) => {
     try {
       const response = await fetch(`${URL}/movie-posters/?limit=${numberOfImages}`);
       const imageUrls = await response.json();
-      console.log("imageUrls", imageUrls)
       // Load images progressively
       imageUrls.forEach((url, index) => {
         const img = new Image();

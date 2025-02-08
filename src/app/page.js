@@ -131,7 +131,7 @@ const Page = () => {
       // Ensure the loading spinner is shown for at least 1 second
       setTimeout(() => {
         setLoading(false);
-      }, 1000);
+      }, 0);
     }
   };
 
