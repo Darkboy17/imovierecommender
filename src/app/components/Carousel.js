@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const Carousel = ({ numberOfImages = 1000, initialLoad = 100 }) => {
+const Carousel = ({ numberOfImages = 1000, initialLoad = 500 }) => {
   const carouselRef = useRef(null);
   const [scrollDirection, setScrollDirection] = useState(1);
   const [images, setImages] = useState(Array(numberOfImages).fill(null));
