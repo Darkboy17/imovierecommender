@@ -13,8 +13,11 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
+    "react-slick": "^0.30.3",
     "react-window": "^1.8.11",
-    "shepherd.js": "^14.4.0"
+    "shepherd.js": "^14.4.0",
+    "slick-carousel": "^1.8.1",
+    "swiper": "^11.2.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -1,86 +1,114 @@
-  import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.css';
+import SwiperCore, { Autoplay, Navigation, Pagination, Scrollbar } from 'swiper';
 
-  const Carousel = ({ numberOfImages = 1000, initialLoad = 100 }) => {
-    const carouselRef = useRef(null);
-    const [scrollDirection, setScrollDirection] = useState(1);
-    const [images, setImages] = useState(Array(numberOfImages).fill(null));
-    const [loadedCount, setLoadedCount] = useState(0);
+// Install modules
+SwiperCore.use([Autoplay, Navigation, Pagination, Scrollbar]);
 
-    const URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const Carousel = ({ numberOfImages = 1000, initialLoad = 100 }) => {
+  const [images, setImages] = useState(Array(numberOfImages).fill(null));
+  const [loadedCount, setLoadedCount] = useState(0);
 
-    // Function to fetch image URLs from the API
-    const fetchImages = async () => {
-      try {
-        const response = await fetch(`${URL}/movie-posters/?limit=${numberOfImages}`);
-        const imageUrls = await response.json();
-        // Load images progressively
-        imageUrls.forEach((url, index) => {
-          const img = new Image();
+  const URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-
-          img.src = `${url}`;
-          img.onload = () => {
-            setImages((prevImages) => {
-              const newImages = [...prevImages];
-              newImages[index] = img.src;
-              return newImages;
-            });
-            setLoadedCount((count) => count + 1);
-          };
-          img.onerror = () => {
-            setImages((prevImages) => {
-              const newImages = [...prevImages];
-              newImages[index] = '/posters/default.jpg'; // Fallback image
-              return newImages;
-            });
-            setLoadedCount((count) => count + 1);
-          };
-        });
-      } catch (error) {
-        console.error('Error fetching images:', error);
-      }
-    };
-
-    useEffect(() => {
-      fetchImages();
-    }, [numberOfImages]);
-
-    // Auto-scrolling effect
-    useEffect(() => {
-      if (loadedCount < initialLoad) return; // Start scrolling after initial load
-
-      const interval = setInterval(() => {
-        if (carouselRef.current) {
-          const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-
-          if (scrollLeft + clientWidth >= scrollWidth && scrollDirection === 1) {
-            setScrollDirection(-1);
-          } else if (scrollLeft <= 0 && scrollDirection === -1) {
-            setScrollDirection(1);
-          }
-
-          carouselRef.current.scrollBy({
-            left: scrollDirection * 25,
-            behavior: 'smooth',
+  // Function to fetch image URLs from the API
+  const fetchImages = async () => {
+    try {
+      const response = await fetch(`${URL}/movie-posters/?limit=${numberOfImages}`);
+      const imageUrls = await response.json();
+      // Load images progressively
+      imageUrls.forEach((url, index) => {
+        const img = new Image();
+        img.src = `${url}`;
+        img.onload = () => {
+          setImages((prevImages) => {
+            const newImages = [...prevImages];
+            newImages[index] = img.src;
+            return newImages;
           });
-        }
-      }, 16); // Adjust the interval as needed
+          setLoadedCount((count) => count + 1);
+        };
+        img.onerror = () => {
+          setImages((prevImages) => {
+            const newImages = [...prevImages];
+            newImages[index] = '/posters/default.jpg'; // Fallback image
+            return newImages;
+          });
+          setLoadedCount((count) => count + 1);
+        };
+      });
+    } catch (error) {
+      console.error('Error fetching images:', error);
+    }
+  };
 
-      return () => clearInterval(interval);
-    }, [scrollDirection, loadedCount, initialLoad]);
+  useEffect(() => {
+    fetchImages();
+  }, [numberOfImages]);
 
-    return (
-      <div className="relative overflow-hidden p-4 mt-2 bg-gray-000 rounded-md shadow-md sm:mt-10 sm:ml-12 carousel">
-        <h2 className="text-gray-700">List of Movies</h2>
-        <div
-          ref={carouselRef}
-          className="flex space-x-4 mt-4 overflow-x-auto"
-        >
-          {images.map((imageUrl, index) => (
-            <div
-              key={index}
-              className="flex-none w-40 h-60 bg-gray-900 rounded-md shadow-md flex items-center justify-center"
-            >
+  return (
+    <div className="relative overflow-hidden p-4 mt-2 bg-gray-000 rounded-md shadow-md sm:mt-10 sm:ml-12 carousel">
+      <h2 className="text-gray-700">List of Movies</h2>
+      <Swiper
+        spaceBetween={1}
+        slidesPerView={5}
+        pagination={{ clickable: true }}
+        scrollbar={{ draggable: true }}
+        breakpoints={{
+
+          290: {
+
+            slidesPerView: 1,
+
+          },
+
+          394: {
+
+            slidesPerView: 2,
+
+          },
+
+          // When window width is >= 768px
+
+          574: {
+
+            slidesPerView: 3,
+
+          },
+
+          // When window width is >= 1024px
+
+          895: {
+
+            slidesPerView: 4,
+
+          },
+          1024: {
+
+            slidesPerView: 3,
+
+          },
+
+          // When window width is >= 1280px
+
+          1294: {
+
+            slidesPerView: 4,
+
+          },
+
+          1520: {
+
+            slidesPerView: 5,
+
+          },
+
+        }}
+      >
+        {images.map((imageUrl, index) => (
+          <SwiperSlide key={index}>
+            <div className="flex-none w-40 h-60 bg-gray-900 rounded-md shadow-md flex items-center justify-center">
               {imageUrl ? (
                 <img
                   src={imageUrl}
@@ -93,10 +121,11 @@
                 </div>
               )}
             </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  );
+};
 
-  export default Carousel;
+export default Carousel;
