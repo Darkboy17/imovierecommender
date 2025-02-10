@@ -17,7 +17,6 @@ const Carousel = ({ numberOfImages = 1000, initialLoad = 100 }) => {
       imageUrls.forEach((url, index) => {
         const img = new Image();
 
-
         img.src = `${url}`;
         img.onload = () => {
           setImages((prevImages) => {
@@ -69,12 +68,35 @@ const Carousel = ({ numberOfImages = 1000, initialLoad = 100 }) => {
     return () => clearInterval(interval);
   }, [scrollDirection, loadedCount, initialLoad]);
 
+  // Prevent user interaction causing scroll
+  useEffect(() => {
+    const carousel = carouselRef.current;
+
+    if (carousel) {
+      const preventScroll = (e) => {
+        e.preventDefault();
+      };
+
+      // Prevent touch and wheel events from scrolling the carousel
+      carousel.addEventListener('wheel', preventScroll, { passive: false });
+      carousel.addEventListener('touchmove', preventScroll, { passive: false });
+      carousel.addEventListener('touchstart', preventScroll, { passive: false });
+
+      return () => {
+        carousel.removeEventListener('wheel', preventScroll);
+        carousel.removeEventListener('touchmove', preventScroll);
+        carousel.removeEventListener('touchstart', preventScroll);
+      };
+    }
+  }, []);
+
   return (
     <div className="relative overflow-hidden p-4 mt-2 bg-gray-000 rounded-md shadow-md sm:mt-10 sm:ml-12 carousel">
       <h2 className="text-gray-700">List of Movies</h2>
       <div
         ref={carouselRef}
-        className="flex space-x-4 mt-4 overflow-x-auto scrollbar-hide"
+        className="flex space-x-4 mt-4 scrollbar-hide"
+        style={{ overflowX: 'hidden', touchAction: 'none' }}
       >
         {images.map((imageUrl, index) => (
           <div

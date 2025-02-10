@@ -3,6 +3,8 @@ export const fetchRecommendations = async ({ numMovies, ratedMovies }) => {
     
     // backend api url
     const URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    console.log('API Base URL:', URL);
     
     // Assemble the watched_movies object
     const watchedMovies = {
