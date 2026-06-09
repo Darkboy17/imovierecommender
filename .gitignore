@@ -3,7 +3,8 @@
 # =========================
 # Frontend dependencies
 # =========================
-/node_modules
+/frontend/node_modules
+/frontend/.next
 /.pnp
 .pnp.*
 .yarn/*
@@ -103,7 +104,7 @@ yarn-error.log*
 next-env.d.ts
 
 # Backend data/assets
-posters/
+!backend/posters/
 movies.json
 static/*.csv
 
